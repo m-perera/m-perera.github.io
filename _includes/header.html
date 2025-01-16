@@ -1,57 +1,84 @@
 <div id="particles-js">
   <div class="header">
       <h1>
-        <span id="username"></span>
-        <span id="user-title"></span>
+        <!-- Empty initially, will be typed by JS -->
+        <span id="username" class="site-title"></span> 
+        <span id="user-title" class="site-description"></span> 
       </h1>
-      <!-- Rest of your existing HTML -->
+      <div class="header-icons">
+        <a aria-label="Send email" href="mailto:{{ site.email }}"><i class="icon fa fa-envelope"></i></a>
+        <a aria-label="My Github" target="_blank" href="https://github.com/{{ site.github_username }}"><i class="icon fa fa-github-alt" aria-hidden="true"></i></a>
+      </div>
+      <div class="header-links">
+        <a class="link" href="#about" data-scroll>About Me</a>
+        <a class="link" href="#projects" data-scroll>Projects</a>
+      </div>
   </div>
+  <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
+<!-- Add the CSS for typing effect and cursor -->
 <style>
-  #username, #user-title {
-    display: inline-block;
-    font-size: 2.5rem;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    font-weight: bold;
-    position: relative;
+  /* Add blinking cursor to the typing effect */
+  .site-title, .site-description {
+      display: inline-block;  /* Ensure it is inline to allow the cursor to appear next to the text */
+      position: relative;     /* So the cursor can be positioned correctly */
+      font-size: 2.5rem;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      visibility: hidden;     /* Initially hide the text until it's typed */
   }
-  
-  #username::after, #user-title::after {
-    content: '|';
-    position: absolute;
-    right: -8px;
-    animation: blink 0.7s infinite;
+
+  /* Add blinking cursor */
+  .site-title::after, .site-description::after {
+      content: "|";             /* The cursor character */
+      position: absolute;
+      right: 0;                 /* Position the cursor to the right of the text */
+      top: 0;
+      animation: blink 0.7s step-end infinite;  /* Blink animation */
   }
-  
+
+  /* Blinking effect */
   @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+      50% {
+          opacity: 0;            /* Make the cursor invisible at halfway point */
+      }
   }
 </style>
 
+<!-- Add JavaScript for typing effect -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const username = "{{ site.username }}";
-  const userTitle = "{{ site.user_title }}";
-  
-  function typeWriter(elementId, text, callback) {
-    const element = document.getElementById(elementId);
-    let i = 0;
-    
-    function type() {
-      if (i < text.length) {
-        element.textContent += text.charAt(i);
-        i++;
-        setTimeout(type, 200);
-      } else if (callback) {
-        setTimeout(callback, 500);
+   // Typing effect function
+   function typeWriter(elementId, text, speed) {
+      let i = 0;
+      let element = document.getElementById(elementId);
+      function type() {
+         if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);  // Slow down the typing speed
+         }
       }
-    }
-    
-    type();
-  }
-  
-  typeWriter('username', username, function() {
-    document.getElementById('usernam
+      type();
+   }
+
+   window.onload = function() {
+      let username = "{{ site.username }}";  // Pull from config.yml
+      let userTitle = "{{ site.user_title }}";  // Pull from config.yml
+
+      // Start typing effect for username with slower speed (200ms per character)
+      setTimeout(() => {
+         typeWriter("username", username, 200);  // Slowed typing speed
+         document.getElementById("username").style.visibility = "visible";  // Show the username after typing starts
+      }, 100);  // Delay before typing starts (optional)
+
+      // Start typing effect for user title after username finishes
+      setTimeout(() => {
+         typeWriter("user-title", userTitle, 200);  // Slowed typing speed for user title
+         document.getElementById("user-title").style.visibility = "visible";  // Show the user title after typing starts
+      }, username.length * 200 + 500); // Delay user-title typing after username finishes
+   };
+</script>
