@@ -1,8 +1,9 @@
 <div id="particles-js">
   <div class="header">
       <h1>
-        <span id="username" class="site-title">{{ site.username }}</span>
-        <span id="user-title" class="site-description">{{ site.user_title }}</span>
+        <!-- Empty initially, will be typed by JS -->
+        <span id="username" class="site-title"></span> 
+        <span id="user-title" class="site-description"></span> 
       </h1>
       <div class="header-icons">
         <a aria-label="Send email" href="mailto:{{ site.email }}"><i class="icon fa fa-envelope"></i></a>
@@ -16,8 +17,8 @@
   <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
+<!-- Add JavaScript for typing effect -->
 <script>
-
    function typeWriter(elementId, text, speed) {
       let i = 0;
       let element = document.getElementById(elementId);
@@ -31,14 +32,18 @@
       type();
    }
 
-
    window.onload = function() {
-      let username = "{{ site.username }}";  
-      let userTitle = "{{ site.user_title }}";  
+      let username = "{{ site.username }}";  // Pull from config.yml
+      let userTitle = "{{ site.user_title }}";  // Pull from config.yml
 
-      typeWriter("username", username, 100);  
+      setTimeout(() => {
+         typeWriter("username", username, 100); 
+         document.getElementById("username").style.visibility = "visible"; 
+      }, 100);  
+
       setTimeout(() => {
          typeWriter("user-title", userTitle, 100);  
+         document.getElementById("user-title").style.visibility = "visible";  
       }, username.length * 100 + 500); 
    };
 </script>
