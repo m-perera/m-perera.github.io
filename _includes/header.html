@@ -57,6 +57,8 @@
       let cursor = document.createElement('span'); // Create cursor element
       cursor.classList.add('cursor');
       element.appendChild(cursor); // Add cursor to element
+      
+      // Function to show one character at a time
       function type() {
          if (i < text.length) {
             element.innerHTML = text.substring(0, i + 1); // Show text one character at a time
@@ -68,6 +70,8 @@
             callback(); // Call the callback after typing is complete
          }
       }
+      
+      // Start typing process
       type();
    }
 
@@ -75,17 +79,19 @@
       let username = "{{ site.username }}";  // Pull from config.yml
       let userTitle = "{{ site.user_title }}";  // Pull from config.yml
 
-      // Start typing effect for username with slower speed (200ms per character)
+      // Start typing effect for username with slower speed (150ms per character)
       setTimeout(() => {
+         document.getElementById("username").style.visibility = "visible"; // Make the text visible when typing starts
          typeWriter("username", username, 150, () => {
-            document.getElementById("username").style.visibility = "visible"; // Make the text visible after typing
-         }); 
+            // Callback to do something after typing is complete (like making text visible)
+         });
       }, 100);  // Delay before typing starts (optional)
 
       // Start typing effect for user title after username finishes
       setTimeout(() => {
+         document.getElementById("user-title").style.visibility = "visible"; // Make the text visible when typing starts
          typeWriter("user-title", userTitle, 150, () => {
-            document.getElementById("user-title").style.visibility = "visible"; // Make the text visible after typing
+            // Callback after user-title typing is complete
          });
       }, username.length * 150 + 500); // Delay user-title typing after username finishes
    };
