@@ -31,33 +31,17 @@
       visibility: hidden;     /* Initially hide the text until it's typed */
   }
 
-  /* Add blinking cursor for username */
-  .site-title::after {
+  /* Cursor style */
+  .cursor {
       content: "|";             /* The cursor character */
       position: absolute;
-      right: 0;                 /* Position the cursor to the right of the text */
+      right: -5px;              /* Position the cursor to the right of the text */
       top: 0;
-      animation: blink-username 0.7s step-end infinite;  /* Blinking animation */
+      animation: blink 0.7s step-end infinite;  /* Blinking animation */
   }
 
-  /* Add blinking cursor for user-title */
-  .site-description::after {
-      content: "|";             /* The cursor character */
-      position: absolute;
-      right: 0;                 /* Position the cursor to the right of the text */
-      top: 0;
-      animation: blink-user-title 0.7s step-end infinite;  /* Blinking animation */
-  }
-
-  /* Blinking effect for username */
-  @keyframes blink-username {
-      50% {
-          opacity: 0;            /* Make the cursor invisible at halfway point */
-      }
-  }
-
-  /* Blinking effect for user-title */
-  @keyframes blink-user-title {
+  /* Blinking effect for cursor */
+  @keyframes blink {
       50% {
           opacity: 0;            /* Make the cursor invisible at halfway point */
       }
@@ -70,12 +54,17 @@
    function typeWriter(elementId, text, speed, callback) {
       let i = 0;
       let element = document.getElementById(elementId);
+      let cursor = document.createElement('span'); // Create cursor element
+      cursor.classList.add('cursor');
+      element.appendChild(cursor); // Add cursor to element
       function type() {
          if (i < text.length) {
-            element.innerHTML += text.charAt(i);
+            element.innerHTML = text.substring(0, i + 1); // Show text one character at a time
             i++;
             setTimeout(type, speed);  // Slow down the typing speed
          } else {
+            // After typing is done, remove the cursor
+            cursor.style.visibility = 'hidden';
             callback(); // Call the callback after typing is complete
          }
       }
@@ -88,20 +77,16 @@
 
       // Start typing effect for username with slower speed (200ms per character)
       setTimeout(() => {
-         typeWriter("username", username, 200, () => {
-            // Hide cursor for username after typing is done
-            document.getElementById("username").style.visibility = "visible";
-            document.querySelector(".site-title::after").style.visibility = "hidden"; 
+         typeWriter("username", username, 150, () => {
+            document.getElementById("username").style.visibility = "visible"; // Make the text visible after typing
          }); 
       }, 100);  // Delay before typing starts (optional)
 
       // Start typing effect for user title after username finishes
       setTimeout(() => {
-         typeWriter("user-title", userTitle, 200, () => {
-            // Hide cursor for user title after typing is done
-            document.getElementById("user-title").style.visibility = "visible";
-            document.querySelector(".site-description::after").style.visibility = "hidden"; 
+         typeWriter("user-title", userTitle, 150, () => {
+            document.getElementById("user-title").style.visibility = "visible"; // Make the text visible after typing
          });
-      }, username.length * 200 + 500); // Delay user-title typing after username finishes
+      }, username.length * 150 + 500); // Delay user-title typing after username finishes
    };
 </script>
