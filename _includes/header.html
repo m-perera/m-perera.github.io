@@ -53,14 +53,12 @@
    function typeWriter(elementId, text, speed, callback) {
       let i = 0;
       let element = document.getElementById(elementId);
-      
-      // Create and insert the cursor into the element
-      let cursor = document.createElement('span');
-      cursor.classList.add('cursor');
-      element.appendChild(cursor);
-      
+      let cursor = document.createElement('span'); // Create a single cursor
+      cursor.classList.add('cursor');  // Add cursor class for styling
+      element.appendChild(cursor);  // Append the cursor to the element
+
       element.style.visibility = 'visible';  // Make the element visible
-      cursor.style.visibility = 'visible';  // Ensure the cursor is visible during typing
+      cursor.style.visibility = 'visible';  // Ensure the cursor is visible
 
       // Function to show one character at a time
       function type() {
@@ -69,8 +67,6 @@
             i++;
             setTimeout(type, speed);  // Slow down the typing speed
          } else {
-            // After typing is done, remove the cursor
-            cursor.style.visibility = 'hidden';
             callback(); // Call the callback after typing is complete
          }
       }
