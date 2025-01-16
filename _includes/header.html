@@ -21,29 +21,29 @@
 <style>
   /* Common styles for the text */
   .site-title, .site-description {
-      display: inline-block;   /* Ensure it is inline to allow the cursor to appear next to the text */
-      position: relative;      /* So the cursor can be positioned correctly */
+      display: inline-block;
+      position: relative;
       font-size: 2.5rem;
       font-family: 'Arial', sans-serif;
       color: #333;
       font-weight: bold;
       white-space: nowrap;
-      visibility: hidden;      /* Initially hide the text until it's typed */
+      visibility: hidden; /* Hide text initially */
   }
 
   /* Cursor style */
   .cursor {
       position: absolute;
-      content: '|';             /* Cursor character */
-      right: -5px;              /* Adjust position of cursor */
+      content: '|';
+      right: -5px; /* Adjust position of cursor */
       top: 0;
-      animation: blink 0.7s step-end infinite;  /* Blinking animation */
+      animation: blink 0.7s step-end infinite; /* Blinking animation */
   }
 
   /* Blinking effect for cursor */
   @keyframes blink {
       50% {
-          opacity: 0;            /* Make the cursor invisible at halfway point */
+          opacity: 0; /* Make cursor invisible halfway */
       }
   }
 </style>
@@ -59,8 +59,8 @@
       cursor.classList.add('cursor');
       element.appendChild(cursor);
       
-      element.style.visibility = 'visible';  // Make the element visible as we start typing
-      cursor.style.visibility = 'visible';  // Make sure the cursor is visible during typing
+      element.style.visibility = 'visible';  // Make the element visible
+      cursor.style.visibility = 'visible';  // Ensure the cursor is visible during typing
 
       // Function to show one character at a time
       function type() {
