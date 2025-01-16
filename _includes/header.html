@@ -1,7 +1,7 @@
 <div id="particles-js">
   <div class="header">
       <h1>
-        <!-- Empty initially, will be typed by JS -->
+  
         <span id="username" class="site-title"></span> 
         <span id="user-title" class="site-description"></span> 
       </h1>
@@ -17,8 +17,41 @@
   <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
-<!-- Add JavaScript for typing effect -->
+
+<style>
+
+  .site-title, .site-description {
+      display: inline-block;  
+      position: relative;     
+      font-size: 2.5rem;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      visibility: hidden;     
+  }
+
+  
+  .site-title::after, .site-description::after {
+      content: "|";            
+      position: absolute;
+      right: 0;                
+      top: 0;
+      animation: blink 0.7s step-end infinite;  
+  }
+
+ 
+  @keyframes blink {
+      50% {
+          opacity: 0;           
+      }
+  }
+</style>
+
+
 <script>
+  
    function typeWriter(elementId, text, speed) {
       let i = 0;
       let element = document.getElementById(elementId);
@@ -26,24 +59,26 @@
          if (i < text.length) {
             element.innerHTML += text.charAt(i);
             i++;
-            setTimeout(type, speed);
+            setTimeout(type, speed);  
          }
       }
       type();
    }
 
    window.onload = function() {
-      let username = "{{ site.username }}";  // Pull from config.yml
-      let userTitle = "{{ site.user_title }}";  // Pull from config.yml
+      let username = "{{ site.username }}";  
+      let userTitle = "{{ site.user_title }}"; 
 
+      
       setTimeout(() => {
-         typeWriter("username", username, 100); 
-         document.getElementById("username").style.visibility = "visible"; 
+         typeWriter("username", username, 200);  
+         document.getElementById("username").style.visibility = "visible";  
       }, 100);  
 
+     
       setTimeout(() => {
-         typeWriter("user-title", userTitle, 100);  
+         typeWriter("user-title", userTitle, 200);  
          document.getElementById("user-title").style.visibility = "visible";  
-      }, username.length * 100 + 500); 
+      }, username.length * 200 + 500); 
    };
 </script>
