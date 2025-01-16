@@ -1,7 +1,7 @@
 <div id="particles-js">
   <div class="header">
       <h1>
-  
+        <!-- Empty initially, will be typed by JS -->
         <span id="username" class="site-title"></span> 
         <span id="user-title" class="site-description"></span> 
       </h1>
@@ -17,68 +17,91 @@
   <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
-
+<!-- Add the CSS for typing effect and cursor -->
 <style>
-
+  /* Add common styles for the text */
   .site-title, .site-description {
-      display: inline-block;  
-      position: relative;     
+      display: inline-block;  /* Ensure it is inline to allow the cursor to appear next to the text */
+      position: relative;     /* So the cursor can be positioned correctly */
       font-size: 2.5rem;
       font-family: 'Arial', sans-serif;
       color: #333;
       font-weight: bold;
       white-space: nowrap;
-      overflow: hidden;
-      visibility: hidden;     
+      visibility: hidden;     /* Initially hide the text until it's typed */
   }
 
-  
-  .site-title::after, .site-description::after {
-      content: "|";            
+  /* Add blinking cursor for username */
+  .site-title::after {
+      content: "|";             /* The cursor character */
       position: absolute;
-      right: 0;                
+      right: 0;                 /* Position the cursor to the right of the text */
       top: 0;
-      animation: blink 0.7s step-end infinite;  
+      animation: blink-username 0.7s step-end infinite;  /* Blinking animation */
   }
 
- 
-  @keyframes blink {
+  /* Add blinking cursor for user-title */
+  .site-description::after {
+      content: "|";             /* The cursor character */
+      position: absolute;
+      right: 0;                 /* Position the cursor to the right of the text */
+      top: 0;
+      animation: blink-user-title 0.7s step-end infinite;  /* Blinking animation */
+  }
+
+  /* Blinking effect for username */
+  @keyframes blink-username {
       50% {
-          opacity: 0;           
+          opacity: 0;            /* Make the cursor invisible at halfway point */
+      }
+  }
+
+  /* Blinking effect for user-title */
+  @keyframes blink-user-title {
+      50% {
+          opacity: 0;            /* Make the cursor invisible at halfway point */
       }
   }
 </style>
 
-
+<!-- Add JavaScript for typing effect -->
 <script>
-  
-   function typeWriter(elementId, text, speed) {
+   // Typing effect function
+   function typeWriter(elementId, text, speed, callback) {
       let i = 0;
       let element = document.getElementById(elementId);
       function type() {
          if (i < text.length) {
             element.innerHTML += text.charAt(i);
             i++;
-            setTimeout(type, speed);  
+            setTimeout(type, speed);  // Slow down the typing speed
+         } else {
+            callback(); // Call the callback after typing is complete
          }
       }
       type();
    }
 
    window.onload = function() {
-      let username = "{{ site.username }}";  
-      let userTitle = "{{ site.user_title }}"; 
+      let username = "{{ site.username }}";  // Pull from config.yml
+      let userTitle = "{{ site.user_title }}";  // Pull from config.yml
 
-      
+      // Start typing effect for username with slower speed (200ms per character)
       setTimeout(() => {
-         typeWriter("username", username, 200);  
-         document.getElementById("username").style.visibility = "visible";  
-      }, 100);  
+         typeWriter("username", username, 200, () => {
+            // Hide cursor for username after typing is done
+            document.getElementById("username").style.visibility = "visible";
+            document.querySelector(".site-title::after").style.visibility = "hidden"; 
+         }); 
+      }, 100);  // Delay before typing starts (optional)
 
-     
+      // Start typing effect for user title after username finishes
       setTimeout(() => {
-         typeWriter("user-title", userTitle, 200);  
-         document.getElementById("user-title").style.visibility = "visible";  
-      }, username.length * 200 + 500); 
+         typeWriter("user-title", userTitle, 200, () => {
+            // Hide cursor for user title after typing is done
+            document.getElementById("user-title").style.visibility = "visible";
+            document.querySelector(".site-description::after").style.visibility = "hidden"; 
+         });
+      }, username.length * 200 + 500); // Delay user-title typing after username finishes
    };
 </script>
