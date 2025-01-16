@@ -16,9 +16,8 @@
   <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
-<!-- Add this JavaScript for the typing effect -->
 <script>
-   // Typing effect function
+
    function typeWriter(elementId, text, speed) {
       let i = 0;
       let element = document.getElementById(elementId);
@@ -32,14 +31,14 @@
       type();
    }
 
-   // Wait for the DOM to load, then trigger the typing effect
-   window.onload = function() {
-      let username = "{{ site.username }}";  // Pull from config.yml
-      let userTitle = "{{ site.user_title }}";  // Pull from config.yml
 
-      typeWriter("username", username, 100);  // Typing effect for username with 100ms delay
+   window.onload = function() {
+      let username = "{{ site.username }}";  
+      let userTitle = "{{ site.user_title }}";  
+
+      typeWriter("username", username, 100);  
       setTimeout(() => {
-         typeWriter("user-title", userTitle, 100);  // Typing effect for user title after a small delay
-      }, username.length * 100 + 500); // Delay user-title typing after username finishes
+         typeWriter("user-title", userTitle, 100);  
+      }, username.length * 100 + 500); 
    };
 </script>
