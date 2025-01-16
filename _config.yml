@@ -5,8 +5,9 @@ description: A blog about lorem ipsum dolor sit amet
 url: m-perera.github.io # the base hostname & protocol for your site e.g. http://willianjusten.com.br
 
 # User settings
-username: Manjitha Perera
-user_description: Wite something about you 
+username: manjitha perera
+user_description: Wite something about you
+user_title: Msc Data Science
 email: pereram@lancaster.ac.uk
 twitter_username: lorem_ipsum
 github_username:  m-perera
