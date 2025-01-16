@@ -26,7 +26,6 @@
       font-weight: bold;
       white-space: nowrap;
       overflow: hidden;
-      visibility: hidden;
   }
 
   .site-title::after, .site-description::after {
@@ -37,37 +36,20 @@
       animation: blink 0.7s step-end infinite;
   }
 
+  .site-title.finished::after {
+      content: none;
+  }
+
   @keyframes blink {
       50% { opacity: 0; }
   }
 </style>
 
 <script>
-   function typeWriter(elementId, text, speed, showCursor = true) {
+   function typeWriter(elementId, text, speed, keepCursor = true) {
       let i = 0;
       let element = document.getElementById(elementId);
-      element.style.visibility = "visible";
       function type() {
          if (i < text.length) {
-            element.innerHTML += text.charAt(i);
+            element.textContent += text.charAt(i);
             i++;
-            setTimeout(type, speed);
-         } else if (!showCursor) {
-            element.style.setProperty('--after-content', 'none');
-         }
-      }
-      type();
-   }
-
-   window.onload = function() {
-      let username = "{{ site.username }}";
-      let userTitle = "{{ site.user_title }}";
-
-      typeWriter("username", username, 200, false);
-
-      setTimeout(() => {
-         document.getElementById("user-title").style.setProperty('--after-content', '"|"');
-         typeWriter("user-title", userTitle, 200, true);
-      }, username.length * 200 + 500);
-   };
-</script>
