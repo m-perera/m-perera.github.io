@@ -1,55 +1,57 @@
 <div id="particles-js">
   <div class="header">
       <h1>
-        <span id="username" class="site-title"></span>
-        <span id="user-title" class="site-description"></span>
+        <span id="username"></span>
+        <span id="user-title"></span>
       </h1>
-      <div class="header-icons">
-        <a aria-label="Send email" href="mailto:{{ site.email }}"><i class="icon fa fa-envelope"></i></a>
-        <a aria-label="My Github" target="_blank" href="https://github.com/{{ site.github_username }}"><i class="icon fa fa-github-alt" aria-hidden="true"></i></a>
-      </div>
-      <div class="header-links">
-        <a class="link" href="#about" data-scroll>About Me</a>
-        <a class="link" href="#projects" data-scroll>Projects</a>
-      </div>
+      <!-- Rest of your existing HTML -->
   </div>
-  <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
 <style>
-  .site-title, .site-description {
-      display: inline-block;
-      position: relative;
-      font-size: 2.5rem;
-      font-family: 'Arial', sans-serif;
-      color: #333;
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
+  #username, #user-title {
+    display: inline-block;
+    font-size: 2.5rem;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    font-weight: bold;
+    position: relative;
   }
-
-  .site-title::after, .site-description::after {
-      content: "|";
-      position: absolute;
-      right: -10px;
-      top: 0;
-      animation: blink 0.7s step-end infinite;
+  
+  #username::after, #user-title::after {
+    content: '|';
+    position: absolute;
+    right: -8px;
+    animation: blink 0.7s infinite;
   }
-
-  .site-title.finished::after {
-      content: none;
-  }
-
+  
   @keyframes blink {
-      50% { opacity: 0; }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 </style>
 
 <script>
-   function typeWriter(elementId, text, speed, keepCursor = true) {
-      let i = 0;
-      let element = document.getElementById(elementId);
-      function type() {
-         if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
+document.addEventListener('DOMContentLoaded', function() {
+  const username = "{{ site.username }}";
+  const userTitle = "{{ site.user_title }}";
+  
+  function typeWriter(elementId, text, callback) {
+    const element = document.getElementById(elementId);
+    let i = 0;
+    
+    function type() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, 200);
+      } else if (callback) {
+        setTimeout(callback, 500);
+      }
+    }
+    
+    type();
+  }
+  
+  typeWriter('username', username, function() {
+    document.getElementById('usernam
