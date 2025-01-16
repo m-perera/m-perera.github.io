@@ -17,9 +17,8 @@
   <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
-<!-- Add the CSS for typing effect and cursor -->
+<!-- Add the CSS for typing effect -->
 <style>
-  /* Common styles for the text */
   .site-title, .site-description {
       display: inline-block;
       position: relative;
@@ -28,51 +27,25 @@
       color: #333;
       font-weight: bold;
       white-space: nowrap;
-      visibility: hidden; /* Hide text initially */
-  }
-
-  /* Cursor style */
-  .cursor {
-      position: absolute;
-      content: '|';
-      right: 0; /* Position cursor at the end of the text */
-      top: 0;
-      animation: blink 0.7s step-end infinite; /* Blinking animation */
-      visibility: visible;  /* Keep the cursor visible */
-  }
-
-  /* Blinking effect for cursor */
-  @keyframes blink {
-      50% {
-          opacity: 0; /* Make cursor invisible halfway */
-      }
+      visibility: hidden;
   }
 </style>
 
 <!-- Add JavaScript for typing effect -->
 <script>
-   function typeWriter(elementId, text, speed, callback) {
+   function typeWriter(elementId, text, speed) {
       let i = 0;
       let element = document.getElementById(elementId);
-      let cursor = document.createElement('span'); // Create a single cursor
-      cursor.classList.add('cursor');  // Add cursor class for styling
-      element.appendChild(cursor);  // Append the cursor to the element
-
       element.style.visibility = 'visible';  // Make the element visible
-      cursor.style.visibility = 'visible';  // Ensure the cursor is visible
 
-      // Function to show one character at a time
       function type() {
          if (i < text.length) {
-            element.innerHTML = text.substring(0, i + 1); // Show text one character at a time
+            element.innerHTML += text.charAt(i); // Add one character at a time
             i++;
-            setTimeout(type, speed);  // Slow down the typing speed
-         } else {
-            callback(); // Call the callback after typing is complete
+            setTimeout(type, speed);  // Control the speed of typing
          }
       }
 
-      // Start typing process
       type();
    }
 
@@ -80,18 +53,14 @@
       let username = "{{ site.username }}";  // Pull from config.yml
       let userTitle = "{{ site.user_title }}";  // Pull from config.yml
 
-      // Start typing effect for username with slower speed (150ms per character)
+      // Start typing effect for username
       setTimeout(() => {
-         typeWriter("username", username, 150, () => {
-            // Callback to do something after username typing is complete
-         });
-      }, 100);  // Delay before typing starts (optional)
+         typeWriter("username", username, 150);  // Typing speed of 150ms per character
+      }, 100);
 
       // Start typing effect for user title after username finishes
       setTimeout(() => {
-         typeWriter("user-title", userTitle, 150, () => {
-            // Callback after user-title typing is complete
-         });
-      }, username.length * 150 + 500); // Delay user-title typing after username finishes
+         typeWriter("user-title", userTitle, 150);  
+      }, username.length * 150 + 500);  // Add a delay after the username typing is finished
    };
 </script>
