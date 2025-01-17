@@ -1,15 +1,51 @@
+<div id="particles-js">
+  <div class="header">
+      <h1>
+        <!-- Empty initially, will be typed by JS -->
+        <span id="username" class="site-title"></span> 
+        <span id="user-title" class="site-description"></span> 
+      </h1>
+      <div class="header-icons">
+        <a aria-label="Send email" href="mailto:{{ site.email }}"><i class="icon fa fa-envelope"></i></a>
+        <a aria-label="My Github" target="_blank" href="https://github.com/{{ site.github_username }}"><i class="icon fa fa-github-alt" aria-hidden="true"></i></a>
+      </div>
+      <div class="header-links">
+        <a class="link" href="#about" data-scroll>About Me</a>
+        <a class="link" href="#projects" data-scroll>Projects</a>
+      </div>
+  </div>
+  <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
+</div>
+
+<!-- Add the CSS for typing effect -->
+<style>
+  .site-title, .site-description {
+      display: inline-block;
+      position: relative;
+      font-size: 2.5rem;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      font-weight: bold;
+      white-space: nowrap;
+      visibility: hidden;
+  }
+</style>
+
+<!-- Add JavaScript for typing effect -->
 <script>
-   // Typing effect function
    function typeWriter(elementId, text, speed) {
       let i = 0;
       let element = document.getElementById(elementId);
+      element.style.visibility = 'visible';  // Make the element visible
+
       function type() {
          if (i < text.length) {
-            element.innerHTML += text.charAt(i);
+            element.innerHTML += text.charAt(i); // Add one character at a time
             i++;
-            setTimeout(type, speed);  // Slow down the typing speed
+            setTimeout(type, speed);  // Control the speed of typing
          }
       }
+
       type();
    }
 
@@ -17,16 +53,14 @@
       let username = "{{ site.username }}";  // Pull from config.yml
       let userTitle = "{{ site.user_title }}";  // Pull from config.yml
 
-      // Start typing effect for username with slower speed (200ms per character)
+      // Start typing effect for username
       setTimeout(() => {
-         typeWriter("username", username, 200);  // Slowed typing speed
-         document.getElementById("username").style.visibility = "visible";  // Show the username after typing starts
-      }, 100);  // Delay before typing starts (optional)
+         typeWriter("username", username, 150);  // Typing speed of 150ms per character
+      }, 100);
 
       // Start typing effect for user title after username finishes
       setTimeout(() => {
-         typeWriter("user-title", userTitle, 200);  // Slowed typing speed for user title
-         document.getElementById("user-title").style.visibility = "visible";  // Show the user title after typing starts
-      }, username.length * 200 + 500); // Delay user-title typing after username finishes
+         typeWriter("user-title", userTitle, 150);  
+      }, username.length * 150 + 500);  // Add a delay after the username typing is finished
    };
 </script>
