@@ -3,7 +3,7 @@
       <h1>
         <!-- Empty initially, will be typed by JS -->
         <span id="username" class="site-title"></span> 
-        <span id="user-title" class="site-description"></span> 
+        <span id="user-title" class="site-description" style="visibility: hidden;"></span> 
       </h1>
       <div class="header-icons">
         <a aria-label="Send email" href="mailto:{{ site.email }}"><i class="icon fa fa-envelope"></i></a>
@@ -27,13 +27,12 @@
       color: #333;
       font-weight: bold;
       white-space: nowrap;
-      visibility: hidden;
   }
 </style>
 
 <!-- Add JavaScript for typing effect -->
 <script>
-   function typeWriter(elementId, text, speed) {
+   function typeWriter(elementId, text, speed, callback) {
       let i = 0;
       let element = document.getElementById(elementId);
       element.style.visibility = 'visible';  // Make the element visible
@@ -43,6 +42,8 @@
             element.innerHTML += text.charAt(i); // Add one character at a time
             i++;
             setTimeout(type, speed);  // Control the speed of typing
+         } else if (callback) {
+            callback();  // Call the callback function when typing is done
          }
       }
 
@@ -55,12 +56,10 @@
 
       // Start typing effect for username
       setTimeout(() => {
-         typeWriter("username", username, 150);  // Typing speed of 150ms per character
+         typeWriter("username", username, 150, () => {
+            // After username is typed, make the title visible
+            document.getElementById("user-title").style.visibility = 'visible'; 
+         });
       }, 100);
-
-      // Start typing effect for user title after username finishes
-      setTimeout(() => {
-         typeWriter("user-title", userTitle, 150);  
-      }, username.length * 150 + 500);  // Add a delay after the username typing is finished
    };
 </script>
