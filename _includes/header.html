@@ -3,7 +3,7 @@
       <h1>
         <!-- Empty initially, will be typed by JS -->
         <span id="username" class="site-title"></span> 
-        <span id="user-title" class="site-description" style="visibility: hidden;"></span> 
+        <span id="user-title" class="site-description"></span> 
       </h1>
       <div class="header-icons">
         <a aria-label="Send email" href="mailto:{{ site.email }}"><i class="icon fa fa-envelope"></i></a>
@@ -17,7 +17,7 @@
   <a class="down" href="#about" data-scroll><i class="icon fa fa-chevron-down" aria-hidden="true"></i></a>
 </div>
 
-<!-- Add the CSS for typing effect -->
+<!-- Add the CSS for typing effect and fade-in -->
 <style>
   .site-title, .site-description {
       display: inline-block;
@@ -27,6 +27,21 @@
       color: #333;
       font-weight: bold;
       white-space: nowrap;
+  }
+
+  /* Fade-in effect for user title */
+  .fade-in {
+      opacity: 0;
+      animation: fadeIn 1.5s forwards; /* 1.5s is the duration of the fade-in */
+  }
+
+  @keyframes fadeIn {
+      0% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 1;
+      }
   }
 </style>
 
@@ -57,9 +72,10 @@
       // Start typing effect for username
       setTimeout(() => {
          typeWriter("username", username, 150, () => {
-            // After the username is typed, pop up the title immediately
-            document.getElementById("user-title").innerHTML = userTitle;  // Set the title text
-            document.getElementById("user-title").style.visibility = 'visible'; // Make title visible
+            // Trigger fade-in effect for title after username typing is finished
+            let userTitleElement = document.getElementById("user-title");
+            userTitleElement.innerHTML = userTitle;  // Set the title text
+            userTitleElement.classList.add('fade-in'); // Add fade-in class to start animation
          });
       }, 100);  // Start typing after a short delay
    };
