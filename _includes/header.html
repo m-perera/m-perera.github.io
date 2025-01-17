@@ -35,7 +35,7 @@
    function typeWriter(elementId, text, speed, callback) {
       let i = 0;
       let element = document.getElementById(elementId);
-      element.style.visibility = 'visible';  // Make the element visible
+      element.style.visibility = 'visible';  // Make the element visible initially
 
       function type() {
          if (i < text.length) {
@@ -57,9 +57,10 @@
       // Start typing effect for username
       setTimeout(() => {
          typeWriter("username", username, 150, () => {
-            // After username is typed, make the title visible
-            document.getElementById("user-title").style.visibility = 'visible'; 
+            // After the username is typed, pop up the title immediately
+            document.getElementById("user-title").innerHTML = userTitle;  // Set the title text
+            document.getElementById("user-title").style.visibility = 'visible'; // Make title visible
          });
-      }, 100);
+      }, 100);  // Start typing after a short delay
    };
 </script>
